@@ -7,7 +7,8 @@ import zero.ui.Row;
 
 public class Main extends GameApp {
     private Player player;
-    private Coin coin;
+    private Coin[] coins;
+    private boolean won;
     private int points;
     private Label scoreLabel;
     private Label message;
@@ -27,14 +28,18 @@ public class Main extends GameApp {
 
     public void restart() {
         player = new Player(40, 180);
-        coin = new Coin(220, 180);
+        coins = new Coin[] {
+            new Coin(220, 180), new Coin(420, 80), new Coin(540, 300)
+        };
+        won = false;
+        message.setText("Collect all " + coins.length + " coins.");
         points = 0;
         scoreLabel.setText("Score: 0");
-        message.setText("Collect the gold square.");
         showGame();
     }
 
     @Override public void update(double seconds) {
+        if (won) return;
         int horizontal = 0;
         int vertical = 0;
         if (keyDown(Key.LEFT)) horizontal--;
