@@ -47,11 +47,18 @@ public class Main extends GameApp {
         if (keyDown(Key.UP)) vertical--;
         if (keyDown(Key.DOWN)) vertical++;
         player.update(horizontal, vertical, seconds, width(), height());
-        if (!coin.isCollected() && coin.touches(player)) {
-            coin.collect();
-            points++;
-            scoreLabel.setText("Score: " + points);
+        for (Coin each : coins) {
+            if (!each.isCollected() && each.touches(player)) {
+                each.collect();
+                points++;
+                scoreLabel.setText("Score: " + points);
+            }
         }
+        if (points == coins.length) {
+            won = true;
+            message.setText("You win! Choose Restart.");
+        }
+
     }
 
     @Override public void draw() {
@@ -59,7 +66,7 @@ public class Main extends GameApp {
         fill(Color.rgb(47, 79, 79));
         textSize(20);
         text("Click the canvas, then hold the arrow keys.", 20, 30);
-        coin.draw(this);
+        for (Coin each : coins) each.draw(this);
         player.draw(this);
     }
 
